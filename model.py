@@ -1,4 +1,3 @@
-
 #Import the necessary libraries
 import pandas as pd
 import numpy as np
@@ -20,8 +19,7 @@ for x in heart.dtypes.index:
 
 heart_data = pd.get_dummies(heart,columns=cat_col,drop_first=True)
 
-
- #Scaling
+# Scaling
 from sklearn.preprocessing import StandardScaler
 st = StandardScaler()
 #Columns that need to be scaled
@@ -47,14 +45,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier,GradientBoostingClassifier,RandomForestClassifier
 
 model = GradientBoostingClassifier()
-
-
-
 model.fit(X_train,y_train)
 y_pred = model.predict(X_test)
 clas_rep = classification_report(y_test,y_pred)
-
-
 
 # GradientBoostingClasifier gridsearch cross validation
 from sklearn.model_selection import GridSearchCV
@@ -67,20 +60,11 @@ params = {'learning_rate':[0.1,0.01,0.2,0.5],
 grid_cv_model = GridSearchCV(model,params,cv=10,n_jobs=-1)
 grid_cv_model.fit(X_train,y_train)
 
-
 # best model with the best params
 final_model = GradientBoostingClassifier(learning_rate=0.1, min_samples_leaf = 2 , min_samples_split = 2 , n_estimators = 100 , loss='squared_error' )
 final_model.fit(X_train,y_train)
 y_pred = final_model.predict(X_test)
 
-
-
-
-
-
 import pickle
 # Saving model to disk
 pickle.dump(final_model, open('model.pkl','wb'))
-
-
-     
