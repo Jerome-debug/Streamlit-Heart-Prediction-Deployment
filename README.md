@@ -15,3 +15,8 @@
 ```sh
   pip install -r requirements.txt
 ```
+
+### App url deployed on Streamlit
+```sh
+https://jerome-debug-streamlit-heart-prediction-deployment-app-elckdi.streamlit.app/
+```
