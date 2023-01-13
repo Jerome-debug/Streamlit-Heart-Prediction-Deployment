@@ -1,29 +1,21 @@
-
 from sklearn.preprocessing import StandardScaler
 import streamlit as st
 import numpy as np
 import pickle as pkl
 from sklearn.preprocessing import MinMaxScaler
 
-
 scal=MinMaxScaler()
 
 #Load the saved model
 model=pkl.load(open("model.pkl","rb"))
 
-
-
-
-
 #st.set_page_config(page_title="Healthy Heart App",page_icon="⚕️",layout="centered",initial_sidebar_state="expanded")
-def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,ca,thal ):   
- 
-    
+def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,ca,thal):   
     # Pre-processing user input   
     if sex=="male":
         sex=1 
-    else: sex=0
-    
+    else:
+        sex=0
     
     if cp=="Typical angina":
         cp=0
@@ -65,7 +57,6 @@ def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,
     elif restecg=="Possible or definite left ventricular hypertrophy":
         restecg=2
 
-
     user_input=[age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,ca,thal]
     user_input=np.array(user_input)
     user_input=user_input.reshape(1,-1)
@@ -77,10 +68,9 @@ def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,
 
 
 def main(): 
-
     html_temp = """ 
     <div style ="background-color:yellow;padding:13px"> 
-    <h1 style ="color:black;text-align:center;">Streamlit Loan Prediction ML App</h1> 
+    <h1 style ="color:black;text-align:center;">Streamlit Heart Prediction ML App</h1> 
     </div> 
     """
 
@@ -105,34 +95,21 @@ def main():
     ca=st.selectbox('Number of Major Vessels Colored by Flourosopy',range(0,5,1))
     thal=st.selectbox('Thalium Stress Result',range(1,8,1))
     
-
     #user_input=preprocess(sex,cp,exang, fbs, slope, thal )
     pred=preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,ca,thal)
 
-
-
-    #When "Predict" is clicked ,make prediction
-
-    
-
-
+    # When "Predict" is clicked, make prediction
+    # TODO figure out how to use the click event for button
     if st.button("Predict"):
       if pred[0]== 0:
         st.error('Warning! You have high risk of getting a heart attack!')
     else:
-     
         st.success('You have lower risk of getting a heart disease!')
 
-    
-
-
-
     st.sidebar.subheader("About App")
-
     st.sidebar.info("This web app is helps you to find out whether you are at a risk of developing a heart disease.")
     st.sidebar.info("Enter the required fields and click on the 'Predict' button to check whether you have a healthy heart")
     st.sidebar.info("Don't forget to rate this app")
-
 
 
 feedback = st.sidebar.slider('How much would you rate this app?',min_value=0,max_value=5,step=1)
